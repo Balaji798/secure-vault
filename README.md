@@ -1,96 +1,148 @@
-Secure Vault
-A modern, client-side encrypted password manager built with Next.js. Your secrets are encrypted locally before storage, ensuring zero-knowledge security.
+# Secure Vault
 
-🔐 Security Features
-Zero-Knowledge Architecture - All encryption happens client-side
-AES-256-GCM Encryption - Military-grade encryption with integrity protection
-PBKDF2 Key Derivation - 100,000 iterations to prevent brute-force attacks
-Secure Random Generation - Cryptographically secure salts and IVs
-Modern UI - Beautiful glassmorphism interface with Tailwind CSS
-🚀 Quick Start
-Prerequisites
-Node.js 18+
-Modern browser (Chrome, Firefox, Safari, Edge)
-Installation
-bash
+A frontend-only secure vault application built with Next.js that allows users to securely store secrets locally in the browser.
 
-# Clone and setup
+The application encrypts all secret data before persisting it to localStorage and decrypts secrets only in memory after successful authentication using a master password.
 
+---
+
+## Assignment Requirements Covered
+
+### Vault & Secret Management
+
+* Create a secret
+* View stored secrets
+* Delete secrets
+* Search secrets (performed only in decrypted memory)
+
+Each secret contains:
+
+* Name
+* Username
+* Password
+* Optional notes
+
+---
+
+## Security Implementation
+
+### Encryption
+
+* Browser Web Crypto API
+* AES-256-GCM for authenticated encryption
+* Unique IV per encrypted secret
+
+### Key Derivation
+
+* PBKDF2
+* SHA-256
+* 100,000 iterations
+* Unique salt per vault
+
+### Storage Policy
+
+Only encrypted vault data is stored in localStorage.
+
+Stored:
+
+* Encrypted secret data
+* Salt
+* Metadata
+
+Never Stored:
+
+* Master password
+* Encryption key
+* Plaintext secrets
+
+---
+
+## Lock / Unlock Flow
+
+1. Application starts in locked state
+2. User enters master password
+3. Encryption key derived in browser
+4. Secrets decrypted in memory only
+5. Vault automatically locks on refresh
+
+---
+
+## Tech Stack
+
+* Next.js (App Router)
+* TypeScript
+* Tailwind CSS v4
+* Browser Web Crypto API
+* LocalStorage
+
+---
+
+## Getting Started
+
+### Install
+
+```bash
 git clone <repository-url>
 cd secure-vault
 npm install
+```
 
-# Run development server
+### Run Development Server
 
+```bash
 npm run dev
+```
 
-# Open browser
+Open:
 
-# Navigate to http://localhost:3000
+```text
+http://localhost:3000
+```
 
-Production Build
-bash
+### Production Build
+
+```bash
 npm run build
 npm start
-🏗️ Architecture
-Core Design Decisions
-Client-Side Encryption
+```
 
-All crypto operations happen in the browser
-Your master password never leaves your device
-Zero-knowledge security model
-Technology Stack
+---
 
-Next.js 16 with App Router
-TypeScript for type safety
-Tailwind CSS v4 for styling
-Web Crypto API for cryptography
-Data Storage
+## Project Structure
 
-Encrypted data stored in localStorage
-Only salt and metadata stored in plaintext
-No backend required - works offline
-Key Management
-
-PBKDF2 with 100,000 iterations
-Unique salt per vault
-Non-extractable keys for memory safety
-256-bit AES-GCM encryption
-📋 Assumptions & Limitations
-Security Assumptions
-✅ Device is not compromised by malware
-✅ Browser's Web Crypto API is secure
-✅ Users choose strong master passwords
-Known Limitations
-⚠️ No automatic backup system
-⚠️ No cross-device synchronization
-⚠️ Lost master password = lost data
-⚠️ Keys remain in memory until page refresh
-🛡️ Security Overview
-What's Protected
-✅ Passwords, usernames, and notes (encrypted)
-✅ Individual IVs prevent pattern analysis
-✅ Authenticated encryption prevents tampering
-✅ Strong key derivation prevents brute force
-What's Not Protected
-⚠️ Metadata (names, timestamps) in plaintext
-⚠️ Vulnerable to local malware attacks
-⚠️ Browser extensions could access data
-🔧 Project Structure
+```text
 secure-vault/
 ├── app/
-│ ├── globals.css # Tailwind styles
-│ ├── layout.tsx # Root layout
-│ └── page.tsx # Main application
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
 ├── hooks/
-│ └── use-vault.ts # Vault state management
+│   └── use-vault.ts
 ├── lib/
-│ ├── crypto.ts # Cryptographic operations
-│ └── vault-storage.ts # Local storage management
-└── public/ # Static assets
-📄 License
-Provided as-is for educational and personal use. Review security implications before production use.
+│   ├── crypto.ts
+│   └── vault-storage.ts
+└── public/
+```
 
-Feedback submitted
+---
 
-Command Awaiting Approval
+## Security Notes
+
+Assumptions:
+
+* Browser Web Crypto implementation is trusted
+* User chooses a strong master password
+* Device environment is not compromised
+
+Limitations:
+
+* No backend or synchronization
+* No recovery if master password is lost
+* Keys exist only during active session
+
+---
+
+## Repository
+
+GitHub:
+https://github.com/Balaji798/secure-vault
