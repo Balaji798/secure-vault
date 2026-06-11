@@ -82,7 +82,7 @@ Never Stored:
 ### Install
 
 ```bash
-git clone [<repository-url>](https://github.com/Balaji798/secure-vault.git)
+git clone https://github.com/Balaji798/secure-vault.git
 cd secure-vault
 npm install
 ```
